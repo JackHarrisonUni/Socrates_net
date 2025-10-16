@@ -31,8 +31,11 @@ This project follows Edge Hill University’s *Red Thread* development structure
 
 ---
 
-# Update Notes
-- **Plato
+## Update Notes
+- **Plato**               Basic functionallity updated and working.
+- **Socrates**            Interaction with plato developed as well as minor changes to
+                          layout and design.
+- **Spelling**            Minor spelling mistakes fixed.
 
 ---
 
