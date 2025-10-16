@@ -22,7 +22,7 @@ This project follows Edge Hill University’s *Red Thread* development structure
 ---
 
 ## Features (Planned / In Development)
-- **socrates.py**         Central orchestrator (formerly main.py)
+- **socrates.py**         Central orchestrator
 - **plato.py**            Logic and reasoning structures
 - **lyceum.py**           Knowledge store (files/logs)
 - **epictetus.py**        Error handler
