@@ -31,5 +31,10 @@ This project follows Edge Hill University’s *Red Thread* development structure
 
 ---
 
+# Update Notes
+- **Plato
+
+---
+
 Licensed under the MIT License by Socrates
 Feel free to use, learn from, and adapt this project — credit appreciated.
