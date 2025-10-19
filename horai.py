@@ -125,7 +125,28 @@ def issue_challenge(request):
     return _mint_olympus_challenge()
 
 def verify_challenge(request):
-    # validate 
+    challenged_module_name = request.module
+    provided_proof = request.proof
+
+    if challenged_module_name not in transient_challenges:
+        #log failure
+        return
+    
+    issued_challenge = transient_challenges[challenged_module_name]
+    if provided_proof != issued_challenge.proof:
+        #remove some trust value from module
+        #log failure
+        return
+
+    del transient_challenges[challenged_module_name]
+    
+    BL = blacklist[challenged_module_name]
+    if BL and BL != 0:
+        trust = BL * TRUST_MINOR
+    else:
+        trust = TRUST_INIT
+
+    registry[challenged_module_name] = {"Trust": trust, }
     return
 
 def _mint_olympus_challenge():
