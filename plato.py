@@ -124,7 +124,6 @@ def conditional_check(normalized_data):
     ### Add negation handling for conditionals.
 
 def reasoning_engine(input_data, input_type):
-    print("Processing input data through reasoning engine...")
     
     match input_type:
         ### TEXT PROCESSING / PATTERN RECOGNITION

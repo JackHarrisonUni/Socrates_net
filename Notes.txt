@@ -7,7 +7,7 @@ weight however that is more advanced than the versions i am on so for now it wil
 section and give each a weight based on the likely hood it is correct similar to an ai model.
 
 
-[DEV LOG — Plato v0.0.3 | Stage 1 Complete]
+[DEV LOG - Plato v0.0.3 | Stage 1 Complete]
 End of Week 2 (ahead of schedule)
 
 Finished Stage 1 early 
@@ -19,3 +19,14 @@ Finished Stage 1 early
 
 Next up:
 Add confidence weighting, negation handling, and deeper reasoning support.
+
+
+
+[DEV LOG - Plato v0.0.3 | Stage 2 start]
+End of Week 2 (ahead of schedule)
+
+Start Stage 2 early 
+- Develop Horai for traffic managment queue and I/O of Socrates
+- Develop Lyceum for logs
+- Add confidence weighting, negation handling, and deeper reasoning support to Plato
+- Add Piping for all commands as well as redirects through Lyceum
