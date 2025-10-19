@@ -33,10 +33,20 @@ This project follows Edge Hill University’s *Red Thread* development structure
 ---
 
 ## Update Notes
-- **Plato**               Basic functionallity updated and working.
-- **Socrates**            Interaction with plato developed as well as minor changes to
-                          layout and design.
-- **Spelling**            Minor spelling mistakes fixed.
+- **Module layout** changes to layout for how mudules interact
+  - module now must go through Horai to be exicuted 
+  - all commands given to socrates will go through Horai for validation
+  - any request to Horai must be valid for it to be executed
+
+- **Horai Updates** Horai is now a gatekeeper and validator as well as the main security body of the program
+  - Modules must perform a handshake with Horai for requests
+  - requests must have valid id and key for validation
+  - intent should be validated and so should scope
+  - anything outside of scope or intent should be terminated and trust revoked 
+  - revokation of trust could be temp or perma depending on serverity of transgretion
+
+- **Socrates update** Socrates is just the mouth piece of the system handing requests over from the user and voiceing what he is told
+ - only uses commands of ui or ux inhancement all others go through horai
 
 ---
 
