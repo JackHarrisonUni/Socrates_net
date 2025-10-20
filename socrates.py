@@ -26,6 +26,7 @@ helpMessage =  """
 Available commands:
 --help/-h/-? : Show this help message
 -exit/quit/q/Ctrl C : Exit the program
+clear/cls : Clear and reload banner
 -modules : List available modules
 """
 
@@ -45,7 +46,7 @@ def load_banner():
         Ascii_Banner = f.read()
         return Ascii_Banner
     
-def Shutdown_Socrates():
+def shutdown_Socrates():
     global alive
     alive = False
     print("Shutting down Socrates.net...")
@@ -71,7 +72,7 @@ def clearConsole():
     print(f"{Ascii_Banner}\n\n\nVersion: {version} | Author: {author}\nDescription: {description}")
 
 def help_command():
-    print (helpMessage)
+    print(helpMessage)
 
 
 ### BOOT SEQUENCE
@@ -89,7 +90,18 @@ while alive:
         raw = command
         stdin = []
         meta = {}
+
         if tokens:
+            if tokens[0] in ["--help", "-h", "?"]:
+                help_command()
+                continue
+            elif tokens[0] in ["-exit", "exit", "quit", "q"]:
+                shutdown_Socrates()
+
+            elif tokens[0] in ["clear", "cls"]:
+                clearConsole()
+
+
             envelope = {
                 "Source": source,
                 "Raw": raw,
@@ -103,7 +115,7 @@ while alive:
            
 
     except KeyboardInterrupt:
-        Shutdown_Socrates()
+        shutdown_Socrates()
 
 
 ### END OF SOCRATES.PY

@@ -197,11 +197,11 @@ def process_command(info):
 ### Main Flow Management Logic
 def the_gates(info):
     invalid_response ={"Route": "Socrates", "Status": "Invalid"}
-    source = info.Source
-    raw = info.Raw
-    token = info.Token
-    time_stamp = info.Time_stamp
-    stdin = info.Stdin
+    source = info["Source"]
+    raw = info["Raw"]
+    token = info["Token"]
+    time_stamp = info["Time_stamp"]
+    stdin = info["Stdin"]
     
     if source in valid_source:
         if len(token) == 0:
