@@ -101,17 +101,17 @@ while alive:
             elif tokens[0] in ["clear", "cls"]:
                 clearConsole()
 
+            else:
+                envelope = {
+                    "Source": source,
+                    "Raw": raw,
+                    "Token": tokens,
+                    "Time_stamp": timestamp,
+                    "Stdin": stdin,
+                    "Meta": meta
+                } 
 
-            envelope = {
-                "Source": source,
-                "Raw": raw,
-                "Token": tokens,
-                "Time_stamp": timestamp,
-                "Stdin": stdin,
-                "Meta": meta
-            } 
-
-            send_to_Horai(envelope)
+                send_to_Horai(envelope)
            
 
     except KeyboardInterrupt:

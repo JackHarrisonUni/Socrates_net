@@ -166,7 +166,7 @@ def use_plato(plato_command):
 
 def process_command(info):
     try:
-        command = info.raw
+        command = info["Raw"]
         tokens = shlex.split(command)
         if tokens[0] == "-Plato":
             if tokens[1] == "--help" or tokens[1] == "-h" or tokens[1] == "-?":
