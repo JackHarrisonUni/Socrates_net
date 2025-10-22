@@ -1,16 +1,12 @@
 ### socrates.py - Main file for Socrates.net
-### IMPORTS AND MODULES For Socrates.py
+### IMPORTS For Socrates.py
 import os
 import sys
 import datetime
 import random
 import shlex
+### MODULES 
 import horai
-
-#import lyceum
-#import epictetus
-#import other modules as they are developed
-
 
 
 ### GLOBAL VARIABLES FOR SOCRATES.PY
@@ -126,7 +122,7 @@ while alive:
 
                 response = send_to_Horai(envelope)
                 if response:
-                    print(f"[{module_name}] response :{response}")
+                    print(f"[{module_name}] response : {response}")
            
 
     except KeyboardInterrupt:

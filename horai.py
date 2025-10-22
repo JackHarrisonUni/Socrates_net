@@ -89,20 +89,80 @@ def the_gates(envelope):
         "Time_stamp": timestamp,
         "Stdin": stdin,
         "Meta": meta
-        } 
+    } 
     """
 
     ### temp dev code for horai entry point
     command = envelope.get("Raw", "")
+    token = envelope.get("Token", [])
     print(f"[{module_name}] Command recived: {command}")
 
-    response = {
-        "Route", module_name,
-        "Status", "Ok",
-        "Message", f"Echo from {module_name}: {command}"
-    }
 
-    return response
+    if not token:
+        ### silent drop zero trust
+
+        ### dev drop 
+        response = {
+            "Route": module_name,
+            "Status": "Empty",
+            "Message": "No command detected."
+        }
+        return response
+
+    
+
+    ### ROUTING
+    first = token[0]
+    if first == "-Plato":
+        ### Route to plato
+        print(f"[{module_name}] Routing to Plato ...")
+        try: 
+            use_plato(command.split(" ", 1)[1])
+            return {
+                "Route": "Plato",
+                "Status": "Ok",
+                "Message": "Command routed to Plato"
+            }
+        except Exception as e:
+            return {
+                "Route": "Plato",
+                "Status": "Error",
+                "Message": f"Failed to route: {e}"
+            }
+    
+    elif first == "-Hermes":
+        print(f"[{module_name}] Routing to Hermes ...")
+
+        return {
+            "Route": "Hermes",
+            "Status": "Ok",
+            "Message": "Command routed to Herems"
+        }
+
+    elif first == "-Lyceum":
+        print(f"[{module_name}] Routing to Lyceum")
+
+        return {
+            "Route": "Lyceum",
+            "Status": "Ok",
+            "Message": "Command routed to Herems"
+        }
+
+    elif first.startswith("-"):
+        return{
+            "Route": module_name,
+            "Status": "Unknown Module",
+            "Message": f"No Module found for command {first}"
+        }
+    
+
+    else:
+        response = {
+            "Route": module_name,
+            "Status": "Ok",
+            "Message": f"Echo from {module_name}: {command}"
+        }
+        return response
     
 
 
