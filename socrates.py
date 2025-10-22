@@ -1,6 +1,7 @@
 ### socrates.py - Main file for Socrates.net
 ### IMPORTS AND MODULES For Socrates.py
 import os
+import sys
 import datetime
 import random
 import shlex
@@ -13,7 +14,7 @@ import horai
 
 
 ### GLOBAL VARIABLES FOR SOCRATES.PY
-
+module_name = "Socrates"
 # version = "0.0.1" Skeliton version
 # version = "0.0.2" Added plato module interaction
 version = "0.0.3" # Added clear command and improved plato module interaction
@@ -30,7 +31,7 @@ clear/cls : Clear and reload banner
 -modules : List available modules
 """
 
-            
+DEV_BOOT = "--dev-boot" in sys.argv      
 
 
 
@@ -62,9 +63,16 @@ def tokenize_command(command): ### For Piping and Redirecting
 
 
 ### Commands for Socrates
-
 def send_to_Horai(info):
-    horai.the_gates(info)
+    return horai.the_gates(info)
+
+def dev_boot():
+    print(f"[{module_name}] Developer boot initiated - Contacting Horai")
+    try:
+        horai.dev_link()
+        print(f"[{module_name}] Horai Acknowledged. Developer link activaed.")
+    except Exception as e:
+        print(f"[{module_name}] Developer boot failed: {e}")
 
 def clearConsole():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -78,7 +86,7 @@ def help_command():
 ### BOOT SEQUENCE
 Ascii_Banner = load_banner()
 ### HORAI MODULE INITIALIZATION
-### horai is silently loaded for now as it will handle input/output and flow management in the future
+### horai is silently loaded for now as it will handle flow management and security in the future
 
 print(f"{Ascii_Banner}\n\n\nVersion: {version} | Author: {author}\nDescription: {description}")
 while alive:
@@ -95,12 +103,17 @@ while alive:
             if tokens[0] in ["--help", "-h", "?"]:
                 help_command()
                 continue
+
             elif tokens[0] in ["-exit", "exit", "quit", "q"]:
                 shutdown_Socrates()
 
             elif tokens[0] in ["clear", "cls"]:
                 clearConsole()
+                continue
 
+            elif tokens[0] == "--dev-boot":
+                dev_boot()
+            
             else:
                 envelope = {
                     "Source": source,
@@ -111,7 +124,9 @@ while alive:
                     "Meta": meta
                 } 
 
-                send_to_Horai(envelope)
+                response = send_to_Horai(envelope)
+                if response:
+                    print(f"[{module_name}] response :{response}")
            
 
     except KeyboardInterrupt:
