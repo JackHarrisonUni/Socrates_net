@@ -44,6 +44,10 @@ This project follows Edge Hill University’s *Red Thread* development structure
   - intent should be validated and so should scope
   - anything outside of scope or intent should be terminated and trust revoked 
   - revokation of trust could be temp or perma depending on serverity of transgretion
+  - acts as first lone of ocms between socrates and all other modules
+  - decides routing based on module identifiers
+  - validates and normalises incoming message evelopes
+  
 
 - **Socrates update** Socrates is just the mouth piece of the system handing requests over from the user and voiceing what he is told
  - only uses commands of ui or ux inhancement all others go through horai

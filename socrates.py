@@ -59,8 +59,8 @@ def tokenize_command(command): ### For Piping and Redirecting
 
 
 ### Commands for Socrates
-def send_to_Horai(info):
-    return horai.the_gates(info)
+def send_to_Horai(envelope):
+    return horai.the_gates(envelope)
 
 def dev_boot():
     print(f"[{module_name}] Developer boot initiated - Contacting Horai")
@@ -122,7 +122,22 @@ while alive:
 
                 response = send_to_Horai(envelope)
                 if response:
-                    print(f"[{module_name}] response : {response}")
+                    status = response.get("Status")
+
+                    module = response.get("Route")
+                    module_from = response.get("From")
+                    message = response.get("Message")
+                   
+                    match status:
+                        case "OK":
+                            
+                            print(f"[{module}] {module_from}: {message}")
+                            continue
+                        case "ERROR":
+                            print(f"[{module}][WARN] {module_from}: payload dropped ({message})")
+                            continue
+                        
+
            
 
     except KeyboardInterrupt:
