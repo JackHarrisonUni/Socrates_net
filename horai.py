@@ -23,6 +23,9 @@ import datetime as dt
 module_name = "Horai"
 # module_version = "0.0.2"
 module_version = "0.0.3" # stable logging pipeline
+# module_version = "0.0.4" pipping for commands enabled
+# module_version = "0.0.5" basic level security functionality for traffic
+# module version = "1.0.0" security for tarffic and hacndshakes with encyrption for sensative network data
 module_description = "flow management module for Socrates.net"
 
 ### handshake request variables

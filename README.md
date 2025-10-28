@@ -48,10 +48,12 @@ This project follows Edge Hill University’s *Red Thread* development structure
   - decides routing based on module identifiers
   - validates and normalises incoming message evelopes
   
-
 - **Socrates update** Socrates is just the mouth piece of the system handing requests over from the user and voiceing what he is told
  - only uses commands of ui or ux inhancement all others go through horai
 
+
+- **Lyceum updates**
+  - Basic intake and validation of data
 ---
 
 Licensed under the MIT License by Socrates
