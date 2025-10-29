@@ -6,7 +6,7 @@ import datetime
 import random
 import shlex
 ### MODULES 
-import horai
+import modules.horai as horai
 
 
 ### GLOBAL VARIABLES FOR SOCRATES.PY
@@ -15,7 +15,7 @@ module_name = "Socrates"
 # version = "0.0.2" Added plato module interaction
 version = "0.0.3" # Added clear command and improved plato module interaction
 author = "Socrates"
-description = "A modular cybersecurity suite inspired by Philosophy and Logic. " # describe what the socrates suit does
+description = "Socrates is the voice, the one who speaks and is spoken too." # describe what the socrates suit does
 
 alive = True
 signature = f"Socrates v{version}"
@@ -130,7 +130,6 @@ while alive:
                    
                     match status:
                         case "OK":
-                            
                             print(f"[{module}] {module_from}: {message}")
                             continue
                         case "ERROR":

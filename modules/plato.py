@@ -3,25 +3,11 @@
 
 
 ### Global variables for Plato.py
-ascii_art = r"""
-      /$$$$$$$ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$| $$$$$$$
-     /$$/ $$$$                                                        | $$$$ /$$
-    /$$/|_  $$       /$$$$$$$  /$$             /$$                    | $$_/|  $$    
-   /$$/   | $$      | $$__  $$| $$            | $$                    | $$   \  $$ 
-  /$$/    | $$      | $$  \ $$| $$  /$$$$$$  /$$$$$$    /$$$$$$       | $$    \  $$
- /$$/     | $$      | $$$$$$$/| $$ |____  $$|_  $$_/   /$$__  $$      | $$     \  $$
-|  $$     | $$      | $$____/ | $$  /$$$$$$$  | $$    | $$  \ $$      | $$      /$$/ 
- \  $$    | $$      | $$      | $$ /$$__  $$  | $$ /$$| $$  | $$      | $$     /$$/ 
-  \  $$   | $$      | $$      | $$|  $$$$$$$  |  $$$$/|  $$$$$$/      | $$    /$$/  
-   \  $$  | $$      |__/      |__/ \_______/   \___/   \______/       | $$   /$$/    
-    \  $$/$$$$                                                        | $$$$/$$/
-     \__$$$$$$ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ | $$$/|_/ 
-"""
 module_name = "Plato"
 # module_version = "0.0.1" Initial version basic text input and file path input
 # module_version = "0.0.2" Added help command and more acurate input handling to the later versions as well as basic pattern recognition
 module_version = "0.0.3" 
-module_description = "Logic and reasoning structures module for Socrates.net"
+module_description = "The voice of logic and reason. Give plato any data and he shall ponder it."
 
 plato_help = """Plato Module Help:
 -t "some text" : Process text input through reasoning engine

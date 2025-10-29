@@ -12,8 +12,8 @@
 
 
 ### IMPORTS AND MODULES For Horai.py
-import plato 
-import lyceum
+import modules.plato as plato 
+import modules.lyceum as lyceum
 import shlex
 import datetime as dt
 
@@ -26,7 +26,7 @@ module_version = "0.0.3" # stable logging pipeline
 # module_version = "0.0.4" pipping for commands enabled
 # module_version = "0.0.5" basic level security functionality for traffic
 # module version = "1.0.0" security for tarffic and hacndshakes with encyrption for sensative network data
-module_description = "flow management module for Socrates.net"
+module_description = "Horai the gate gaurd to olympus. She will validate all commands and destroy those that do not live up to her standards"
 
 ### handshake request variables
 
@@ -68,6 +68,13 @@ def use_plato(plato_command):
         lyceum.create_log()
         return 
 
+def use_lyceum(lyceum_command):
+    try:
+        
+        lyceum.main(lyceum_command)
+        return
+    except Exception as e:
+        return e
 
 def process_command(payload):
     try:
@@ -152,6 +159,7 @@ def process_command(payload):
 
         elif first == "-Lyceum":
             try:
+                use_lyceum(token)
                 log_lyceum({
                     "Route": module_name,
                     "From": "Lyceum",
@@ -172,7 +180,7 @@ def process_command(payload):
                 })
                 return {
                     "Route": "Lyceum",
-                    "Status": "Error",
+                    "Status": "ERROR",
                     "Message": f"Failed to route: {e}"
                 }
 
@@ -185,7 +193,7 @@ def process_command(payload):
                 })
             return{
                 "Route": module_name,
-                "Status": "UNKNOWN MODULE",
+                "Status": "ERROR",
                 "Message": f"No Module found for command {first}"
             }
         
@@ -241,7 +249,7 @@ def the_gates(payload):
                 })
         return {
             "Route": module_name,
-            "Status": "DROP",
+            "Status": "ERROR",
             "Message": "Malformed payload"
         }
     
@@ -255,7 +263,7 @@ def the_gates(payload):
                 })
         return {
             "Route": module_name,
-            "Status": "DROP",
+            "Status": "ERROR",
             "Message": "Empty or invalid args"
         }
     
