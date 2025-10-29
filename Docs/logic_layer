@@ -1,0 +1,46 @@
+## Horai logic text
+
+### overview
+- Gatekeeper and message router
+- Handles module communications 
+- Modes: DEV (Talks for debugg) / PARANOID (Silent)
+
+----
+### Envelope (Payload)
+
+{
+    sender: module_name,
+    target: module_target_name,
+    command: command_full,
+    tokens: command_split,
+    args: [ Everything after_command[0] ],
+    meta: {any other data}
+}
+
+sender is who sent it.
+target is who it is ment to be sent to
+command this is the full command
+tokens this is the shlex split command
+args is everything after the first part of the command
+meta is any extra data
+
+----
+### Flow order
+
+receive -> validate -> check sender -> pick target -> check scope -> normalize args -> dispatch/drop
+
+----
+### modes
+
+DEV: logs events in terminal 
+PARANOID: compleately silent
+
+----
+### Normalize Rules
+
+
+| Input | Output |
+|---|---|
+| None | ["text"]|
+| list | cleaned list |
+| other | [str()] |

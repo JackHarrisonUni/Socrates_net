@@ -3,25 +3,11 @@
 
 
 ### Global variables for Plato.py
-ascii_art = r"""
-      /$$$$$$$ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$| $$$$$$$
-     /$$/ $$$$                                                        | $$$$ /$$
-    /$$/|_  $$       /$$$$$$$  /$$             /$$                    | $$_/|  $$    
-   /$$/   | $$      | $$__  $$| $$            | $$                    | $$   \  $$ 
-  /$$/    | $$      | $$  \ $$| $$  /$$$$$$  /$$$$$$    /$$$$$$       | $$    \  $$
- /$$/     | $$      | $$$$$$$/| $$ |____  $$|_  $$_/   /$$__  $$      | $$     \  $$
-|  $$     | $$      | $$____/ | $$  /$$$$$$$  | $$    | $$  \ $$      | $$      /$$/ 
- \  $$    | $$      | $$      | $$ /$$__  $$  | $$ /$$| $$  | $$      | $$     /$$/ 
-  \  $$   | $$      | $$      | $$|  $$$$$$$  |  $$$$/|  $$$$$$/      | $$    /$$/  
-   \  $$  | $$      |__/      |__/ \_______/   \___/   \______/       | $$   /$$/    
-    \  $$/$$$$                                                        | $$$$/$$/
-     \__$$$$$$ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ | $$$/|_/ 
-"""
 module_name = "Plato"
 # module_version = "0.0.1" Initial version basic text input and file path input
 # module_version = "0.0.2" Added help command and more acurate input handling to the later versions as well as basic pattern recognition
 module_version = "0.0.3" 
-module_description = "Logic and reasoning structures module for Socrates.net"
+module_description = "The voice of logic and reason. Give plato any data and he shall ponder it."
 
 plato_help = """Plato Module Help:
 -t "some text" : Process text input through reasoning engine
@@ -134,7 +120,7 @@ def reasoning_engine(input_data, input_type):
 
             ### QUESTION RECOGNITION
             if normalized_data[-1].endswith("?") or normalized_data[0]in question_starts: # and normalized_data[1] in secondary_question_starts):  this need to be fixed look at Notes.txt
-                data = {"Question" : input_data}
+                Result = {"Question" : input_data}
                 classification = "question"
                 Confidence = "unclassified"
 
@@ -146,19 +132,19 @@ def reasoning_engine(input_data, input_type):
                 
                 ### LOGICAL STATEMENT RECOGNITION
                 elif any(token in ["and", "or", "not", "if", "then"] for token in normalized_data):
-                    data = f"Logical operator received: {input_data}"
+                    Result = f"Logical operator received: {input_data}"
                     classification = "logical statement"
                     Confidence = "unclassified"
                     
                 ### GENERAL TEXT RECOGNITION
                 else:
-                    data = f"Statement received: {input_data}"
+                    Result = f"Statement received: {input_data}"
                     classification = "statement"
                     Confidence = "unclassified"
 
             return {"Model": f"{module_name} v{module_version}",
                     "Classification" : classification,
-                    "Data" : data,
+                    "Result" : Result,
                     "Confidence" : Confidence}
 
         ### FILE PATH PROCESSING / VALIDATION
@@ -166,10 +152,9 @@ def reasoning_engine(input_data, input_type):
             processed_data = f"File path received: {input_data}" 
             return {"Model": f"{module_name} v{module_version}",
                     "Classification" : "File Path",
-                    "Data" : processed_data,
+                    "Result" : processed_data,
                     "Confidence" : "Unclassified"}
 
-        
         case _:
             processed_data = "Command not recognized. please use -Plato --help for options."
     
