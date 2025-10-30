@@ -85,5 +85,5 @@ def scan_target(target):
         }
 
 def report_back(result):
-    return h.recived_from_module(result)
+    return h.received_from_module(result)
     

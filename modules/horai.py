@@ -238,12 +238,13 @@ def normalize_tokens(tokens):
     cleaned = [t.strip() for t in tokens if t and t.strip()]
     return cleaned
 
-def recived_from_module(data):
+def received_from_module(data):
     try:
-        if data.get("Route") == "Lyceum":
+        route = data.get("Route")
+        if route in ["Horai","Lyceum"]:
             return {
                 "Status": "OK",
-                "Message": "Lyceum message ignored to prevent recursion"
+                "Message": f"{route} message ignored to prevent recursion"
             }
         
         response = l.save_log(data)
@@ -289,7 +290,7 @@ def the_gates(payload):
 
     response = process_command(payload)
 
-    if all(response in ["Log", "Wrapped"]):
+    if "Log" in response and "Wrapped" in response:
         return response.get("Wrapped")
     else:
         return response
