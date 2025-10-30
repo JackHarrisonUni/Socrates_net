@@ -12,8 +12,9 @@
 
 
 ### IMPORTS AND MODULES For Horai.py
-import modules.plato as plato 
-import modules.lyceum as lyceum
+import plato as p 
+import lyceum as l
+import hermes as h
 import shlex
 import datetime as dt
 
@@ -48,7 +49,7 @@ pipping_commands = ["|", ">", ">>"]
 
 def log_lyceum(data):
     try:
-        response = lyceum.create_log(data)
+        response = l.create_log(data)
         return (response)
     except Exception as e:
         return {
@@ -58,20 +59,18 @@ def log_lyceum(data):
             "Message": f"Cannot connect to Lyceum: {e}"
         }
     
-
 def use_plato(plato_command): 
     try:
         input_type, input_data = plato_command
-        result = plato.reasoning_engine(input_data, input_type)
+        result = p.reasoning_engine(input_data, input_type)
         return result
     except ValueError:
-        lyceum.create_log()
+        l.create_log()
         return 
 
 def use_lyceum(lyceum_command):
     try:
-        
-        lyceum.main(lyceum_command)
+        l.main(lyceum_command)
         return
     except Exception as e:
         return e
@@ -113,10 +112,11 @@ def process_command(payload):
                         "From": "Plato",
                         "Status": "OK",
                         "Message": str(result),
-                        "Meta": {}
                     }
-                log_lyceum(log)
-                return wrapped
+                return {
+                    "Log":log,
+                    "Wrapped": wrapped
+                    }
             
             except Exception as e:
                 log_lyceum( {
@@ -133,24 +133,27 @@ def process_command(payload):
         
         elif first == "-Hermes":
             try:
-                log_lyceum({
+                response = h.start_hermes()
+                
+                log = {
                     "Route": module_name,
                     "From": "Hermes",
-                    "Status": "OK",
+                    "Status": response.get("Status", "OK"),
                     "Time_Stamp": dt.datetime.now()
-                })
-                return {
-                    "Route": "Hermes",
-                    "Status": "OK",
-                    "Message": "Command routed to Hermes"
                 }
-            except Exception as e:
-                log_lyceum({
+                wrapped = {
                     "Route": module_name,
                     "From": "Hermes",
-                    "Status": "ERROR",
-                    "Time_Stamp": dt.datetime.now()
-                })
+                    "Status": "OK",
+                    "Message": f"{response.get("Result")}"
+                }
+                return {
+                    "Log": log, 
+                    "Wrapped": wrapped
+                }
+            
+            except Exception as e:
+                
                 return {
                     "Route": "Hermes",
                     "Status": "Error",
@@ -226,16 +229,32 @@ def dev_link():
                     "Time_Stamp": dt.datetime.now()
                 })
                 
-
 def validate_payload(payload):
     required = ["Source", "Raw", "Token"]
     return all(k in payload for k in required)
-
 
 def normalize_tokens(tokens):
     if not tokens: return []
     cleaned = [t.strip() for t in tokens if t and t.strip()]
     return cleaned
+
+def recived_from_module(data):
+    try:
+        if data.get("Route") == "Lyceum":
+            return {
+                "Status": "OK",
+                "Message": "Lyceum message ignored to prevent recursion"
+            }
+        
+        response = l.save_log(data)
+        return response
+    
+    except Exception as e:
+         return {
+            "Status": "ERROR",
+            "Route": "Horai",
+            "Message": f"Failed to process module data: {e}"
+        }
 
 ### Main Flow Management Logic
 def the_gates(payload):
@@ -268,6 +287,12 @@ def the_gates(payload):
         }
     
 
-    return process_command(payload)
+    response = process_command(payload)
+
+    if all(response in ["Log", "Wrapped"]):
+        return response.get("Wrapped")
+    else:
+        return response
+    
 
 ### TODO add blacklist functionality with lyceum audit record 

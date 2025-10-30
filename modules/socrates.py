@@ -6,7 +6,7 @@ import datetime
 import random
 import shlex
 ### MODULES 
-import modules.horai as horai
+import horai as h
 
 
 ### GLOBAL VARIABLES FOR SOCRATES.PY
@@ -60,12 +60,12 @@ def tokenize_command(command): ### For Piping and Redirecting
 
 ### Commands for Socrates
 def send_to_Horai(envelope):
-    return horai.the_gates(envelope)
+    return h.the_gates(envelope)
 
 def dev_boot():
     print(f"[{module_name}] Developer boot initiated - Contacting Horai")
     try:
-        horai.dev_link()
+        h.dev_link()
         print(f"[{module_name}] Horai Acknowledged. Developer link activaed.")
     except Exception as e:
         print(f"[{module_name}] Developer boot failed: {e}")
