@@ -3,43 +3,6 @@ disclamer="""
 DISCLAMER: 
 Only scan authorised targets. The creator of this tool has no legal or ethical responsability to how you use this tool.
 """
-
-ascii_banner = """
-                                                                  @@@@@@@@                                                           
-                                                               @@@          @@@@@                                                    
-                                                              @          @@@      @@@@                                               
-                                                    @@@      @          @               @@@@                    @@                   
-                                                 @@   @ @@          @@@@      @J  @           @@@@@@         @@  @                   
-                                                @      @           @     @                           @@@@@     @         @@@         
-                                            @ @       @     @@@@@@@        @@@@@    @@@                         @@@@@@   @           
-                                       @@   @@        @            @  @@@@@             @@@@     @   @@@@             @@             
-                                      @   @Z          @                        @@@@@@@@@      @@@@@@           @@@                   
-                                       @            @ @  @   @   @                                                                   
-                                        @        @@   @       @@@@ @@@@@                                                             
-                                       l   @@       @@@  @ @         @                                                               
-                                        @@     [@@    @@ @   n@                                                                      
-                                          _     @@      @      @   @@   @@                                                           
-                                         @@@@@       @@@@@)   @@ @     @                                                             
-                                        @  @     @@@      @     @@   @                                                               
-                                        @   @           @@@  @@@@@@@@                                                                
-                                       @  @  @                      @                                                                
-                                      @    @  @                     @@                                                               
-                                     @     @  @                    : @@                                                              
-                                    @       @  @                @  @@                                                                
-                                   @        @  @            @   @@                                                                   
-                                   @         @           @  @@                                                                       
-                                  @          @        @  @@                                                                          
-                                 @@          @     @  @@                                                                             
-                                 @           @  @  @@                                                                                
-                                @            `   @                                                                                   
-                              @@           @  @@                                                                                     
-                           @@@           @  @@                                                                                       
-                       @@                @@                                                                                          
-                     @              @  @                                                                                             
-                    @           @@  @@                                                                                               
-                     @@@@@@@@   @@                                                                                                   
-                      @@@@@@@                                                                                                        
-"""
 ### Imports
 import shlex
 import horai as h
@@ -51,12 +14,14 @@ module_version = "0.0.1" #basic single target port scanner
 module_description = "This is Hermes the messanger of the gods. He checks the network packets and scans targets."
 
 # functions
-
+def verify():
+    #this will call horai and register with it 
+    return
 
 def start_hermes():
-    print(ascii_banner)
     print(disclamer)
     # entry route however could we just pull scan_target staright away.
+    
     pass
 
 def scan_target(target):

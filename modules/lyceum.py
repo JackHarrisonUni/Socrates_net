@@ -15,7 +15,7 @@ module_version = "0.0.1" #basic take in function
 # module_version = "1.0.0" # fully functional basic store and retreve function with security
 module_description = "Lyceum, the  stores of knowleged from time long past."
 
-ARCHIVE_PATH = "../Lyceum_Archives"
+ARCHIVE_PATH = "Lyceum_Archives"
 tail_leng = 10
 head_leng = 10
 
@@ -58,7 +58,6 @@ def get_todays_logpath():
 
 def save_log(log):
     try:
-        
         file_path = get_todays_logpath()
 
         if not os.path.exists(ARCHIVE_PATH):
@@ -69,7 +68,7 @@ def save_log(log):
             
         with open(file_path, "a") as f:
             f.write(json.dumps(log) + "\n")
-            print("Done")
+            
 
         return {
             "Status": "OK",
@@ -83,6 +82,7 @@ def save_log(log):
 
 def create_log(data):
     try:
+        timestamp = dt.datetime.now()
         valid = validate_payload(data)
         if data and valid:
             # save data here
@@ -90,23 +90,35 @@ def create_log(data):
                         "Route": module_name,
                         "Status": "OK",
                         "Logged": True,
-                        "Message": "System log updated"
+                        "Message": "System log updated",
+                        "Time_stamp": timestamp
                         }
+            save_log(data)
             return response
         elif not valid:
-            return {
+            response = {
                 "Route": module_name,
                 "Status": "ERROR",
                 "Logged": False,
-                "Message": "Payload not valid"
+                "Message": "Payload not valid",
+                "Time_stamp": timestamp
             }
+            save_log(response)
+            return response
     except Exception as e:
+        save_log({
+            "Route": module_name,
+            "Status": "ERROR",
+            "Logged": False,
+            "Message": e,
+            "Time_stamp": timestamp
+        })
         return {
             "Route": module_name,
             "Status": "ERROR",
             "Logged": False,
-            "Message": e
-
+            "Message": e,
+            "Time_stamp": timestamp
         }
     
 def main(command):
