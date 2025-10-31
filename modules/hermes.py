@@ -5,7 +5,7 @@ Only scan authorised targets. The creator of this tool has no legal or ethical r
 """
 ### Imports
 import shlex
-import horai as h
+import modules.horai as h
 
 ### Global variables
 module_name = "Hermes"

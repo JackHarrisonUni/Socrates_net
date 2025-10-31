@@ -6,7 +6,7 @@ import datetime
 import random
 import shlex
 ### MODULES 
-from horai import Horai
+from modules.horai import Horai
 
 
 ### GLOBAL VARIABLES FOR SOCRATES.PY

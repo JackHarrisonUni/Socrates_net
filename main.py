@@ -1,1 +1,3 @@
 from modules import socrates as socrates
+
+socrates.main()

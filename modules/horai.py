@@ -11,9 +11,9 @@
 
 
 ### IMPORTS AND MODULES For Horai.py
-import plato as p 
-import lyceum as l
-import hermes as h
+import modules.plato as p 
+import modules.lyceum as l
+import modules.hermes as h
 
 import shlex
 import datetime as dt
