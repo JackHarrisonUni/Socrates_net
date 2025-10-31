@@ -6,7 +6,7 @@ import datetime
 import random
 import shlex
 ### MODULES 
-import horai as h
+from horai import Horai
 
 
 ### GLOBAL VARIABLES FOR SOCRATES.PY
@@ -17,6 +17,7 @@ version = "0.0.3" # Added clear command and improved plato module interaction
 author = "Socrates"
 description = "Socrates is the voice, the one who speaks and is spoken too." # describe what the socrates suit does
 
+horai = Horai()
 alive = True
 signature = f"Socrates v{version}"
 helpMessage =  """
@@ -60,12 +61,12 @@ def tokenize_command(command): ### For Piping and Redirecting
 
 ### Commands for Socrates
 def send_to_Horai(envelope):
-    return h.the_gates(envelope)
+    return horai.the_gates(envelope)
 
 def dev_boot():
     print(f"[{module_name}] Developer boot initiated - Contacting Horai")
     try:
-        h.dev_link()
+        horai.set_dev(True)
         print(f"[{module_name}] Horai Acknowledged. Developer link activaed.")
     except Exception as e:
         print(f"[{module_name}] Developer boot failed: {e}")
@@ -79,68 +80,66 @@ def help_command():
     print(helpMessage)
 
 
-### BOOT SEQUENCE
-Ascii_Banner = load_banner()
-### HORAI MODULE INITIALIZATION
-### horai is silently loaded for now as it will handle flow management and security in the future
+def main():
+    Ascii_Banner = load_banner()
+    ### HORAI MODULE INITIALIZATION
+    ### horai is silently loaded for now as it will handle flow management and security in the future
 
-print(f"{Ascii_Banner}\n\n\nVersion: {version} | Author: {author}\nDescription: {description}")
-while alive:
-    try:
-        command = input("user@socrates: Socrates.net> ")
-        timestamp = datetime.datetime.now()
-        tokens = tokenize_command(command)
-        source = signature
-        raw = command
-        stdin = []
-        meta = {}
+    print(f"{Ascii_Banner}\n\n\nVersion: {version} | Author: {author}\nDescription: {description}")
+    while alive:
+        try:
+            command = input("user@socrates: Socrates.net> ")
+            timestamp = datetime.datetime.now()
+            tokens = tokenize_command(command)
+            source = signature
+            raw = command
+            stdin = []
+            meta = {}
 
-        if tokens:
-            if tokens[0] in ["--help", "-h", "?"]:
-                help_command()
-                continue
+            if tokens:
+                if tokens[0] in ["--help", "-h", "?"]:
+                    help_command()
+                    continue
 
-            elif tokens[0] in ["-exit", "exit", "quit", "q"]:
-                shutdown_Socrates()
+                elif tokens[0] in ["-exit", "exit", "quit", "q"]:
+                    shutdown_Socrates()
 
-            elif tokens[0] in ["clear", "cls"]:
-                clearConsole()
-                continue
+                elif tokens[0] in ["clear", "cls"]:
+                    clearConsole()
+                    continue
+                    
 
-            elif tokens[0] == "--dev-boot":
-                dev_boot()
-            
-            else:
-                envelope = {
-                    "Source": source,
-                    "Raw": raw,
-                    "Token": tokens,
-                    "Time_stamp": timestamp,
-                    "Stdin": stdin,
-                    "Meta": meta
-                } 
+                elif tokens[0] == "--dev-boot":
+                    dev_boot()
+                
+                else:
+                    envelope = {
+                        "Source": source,
+                        "Raw": raw,
+                        "Token": tokens,
+                        "Time_stamp": timestamp,
+                        "Stdin": stdin,
+                        "Meta": meta
+                    } 
 
-                response = send_to_Horai(envelope)
-                if response:
-                    status = response.get("Status")
+                    response = send_to_Horai(envelope)
+                    if response:
+                        status = response.get("Status")
 
-                    module = response.get("Route")
-                    module_from = response.get("From")
-                    message = response.get("Message")
-                   
-                    match status:
-                        case "OK":
-                            print(f"[{module}] {module_from}: {message}")
-                            continue
-                        case "ERROR":
-                            print(f"[{module}][WARN] {module_from}: payload dropped ({message})")
-                            continue
+                        module = response.get("Route")
+                        module_from = response.get("From")
+                        message = response.get("Message")
                         
+                        match status:
+                            case "OK":
+                                print(f"[{module}] {module_from}: {message}")
+                                continue
+                            case "ERROR":
+                                print(f"[{module}][WARN] {module_from}: payload dropped ({message})")
+                                continue
 
-           
-
-    except KeyboardInterrupt:
-        shutdown_Socrates()
+        except KeyboardInterrupt:
+            shutdown_Socrates()
 
 
-### END OF SOCRATES.PY
+    ### END OF SOCRATES.PY
