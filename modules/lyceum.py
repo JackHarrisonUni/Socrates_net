@@ -3,7 +3,11 @@
 
 
 # Imports for lyceum
+import os
+import json
+import datetime as dt
 
+# Global vars
 module_name = "Lyceum"
 module_version = "0.0.1" #basic take in function
 # module_version = "0.0.2" # fully functional stores
@@ -11,6 +15,7 @@ module_version = "0.0.1" #basic take in function
 # module_version = "1.0.0" # fully functional basic store and retreve function with security
 module_description = "Lyceum, the  stores of knowleged from time long past."
 
+ARCHIVE_PATH = "../Lyceum_Archives"
 tail_leng = 10
 head_leng = 10
 
@@ -47,18 +52,33 @@ def validate_payload(payload):
     required = ["Route", "Status", "Message", "Time_stamp"]
     return all(k in payload for k in required)
 
-def save_log(log):
+def get_todays_logpath():
+    date = dt.datetime.now().strftime("%Y-%m-%d")
+    return (f"{ARCHIVE_PATH}/{date}.log")
 
+def save_log(log):
     try:
-        # flesh this out
+        
+        file_path = get_todays_logpath()
+
+        if not os.path.exists(ARCHIVE_PATH):
+            os.makedirs(ARCHIVE_PATH)
+        
+        if "Time_stamp" not in log:
+            log["Time_stamp"] = dt.datetime.now().isoformat()
+            
+        with open(file_path, "a") as f:
+            f.write(json.dumps(log) + "\n")
+            print("Done")
+
         return {
             "Status": "OK",
-            "Message": "Log Created",
+            "Message": f"Log Created {file_path}",
         }
     except Exception as e: 
         return {
             "Status": "ERROR",
-            "Message": f"Failed to created log: {e}"
+            "Message": f"Failed to create log: {e}"
             }
 
 def create_log(data):
@@ -138,3 +158,4 @@ def main(command):
                 
     except Exception as e:
         return e
+
