@@ -18,8 +18,6 @@ import modules.hermes as h
 import shlex
 import datetime as dt
 
-#import other modules as they are developed
-
 
 
 ### handshake request variables
@@ -29,6 +27,7 @@ import datetime as dt
 class Horai:
     def __init__(self, dev_mode = False, paranoid_mode = True):
         # CORE IDENTITY
+        self.author = "ZeroCypher"
         self.module_name = "Horai"
         self.module_version = "0.0.4"
         self.module_description = "Horai the gate gaurd to olympus. She will validate all commands and destroy those that do not live up to her standards"
@@ -51,6 +50,11 @@ class Horai:
 
 
     # METHODS
+
+    # SECURITY SECTION
+
+
+    # attribute chages
     def set_mode(self):
         if self.dev:
             mode = False
@@ -64,14 +68,14 @@ class Horai:
 
     def set_dev(self, bool):
         self.dev = bool
-        self.set_para(not bool)
         return self.set_mode()
     
     def set_para(self, bool):
         self.para = bool
-        self.set_dev(not bool)
         return self.set_mode()
 
+
+    # logging
     def log_lyceum(self, data):
         try:
             response = self.l.create_log(data)
@@ -83,7 +87,9 @@ class Horai:
                 "Status": "ERROR",
                 "Message": f"Cannot connect to Lyceum: {e}"
             }
-        
+
+
+    # use module   
     def use_plato(self, plato_command): 
         try:
             input_type, input_data = plato_command
@@ -100,29 +106,43 @@ class Horai:
         except Exception as e:
             return e
 
+    def use_hermes(self, hermes_command):
+        h.report_back(hermes_command)
+
+        return
+    
+
+    # comand validation and processing
     def process_command(self, payload):
         try:
-            if not command:
+            if not payload.get("Raw"):
                 return {
                     "Route": self.module_name,
                     "Status": "ERROR",
                     "Message": "Empty command."
                 }
-            token = payload.get("Token",)[1:]
-            command = payload.get("Raw")
+            token = self.normalize_tokens(payload.get("Token"))
+            if not token:
+                return {
+                    "Route": self.module_name,
+                    "Status": "ERROR",
+                    "Message": "No command."
+                }
+            
 
             ### ROUTING
-            first = shlex.split(command)[0]
+            first = token[0]
             if first == "-Plato":
                 ### Route to plato
                 try: 
-                    result = self.use_plato(token)
+                    result = self.use_plato(token[1:])
                     if isinstance(result, dict):
                         log = {
                             "Route": self.module_name,
                             "From": "Plato",
                             "Status": result.get("Status", "OK"),
-                            "Time_Stamp": dt.datetime.now()
+                            "Message": result.get("Message",),
+                            "Time_stamp": dt.datetime.now().isoformat()
                         }
                         wrapped = {
                             "Route": self.module_name,
@@ -136,7 +156,7 @@ class Horai:
                             "Route": self.module_name,
                             "From": "Plato",
                             "Status": "OK",
-                            "Time_Stamp": dt.datetime.now()
+                            "Time_stamp": dt.datetime.now().isoformat()
                         }
                         wrapped = {
                             "Route": self.module_name,
@@ -155,7 +175,7 @@ class Horai:
                             "Route": self.module_name,
                             "From": "Plato",
                             "Status": "ERROR",
-                            "Time_Stamp": dt.datetime.now()
+                            "Time_stamp": dt.datetime.now().isoformat()
                         })
                     return {
                         "Route": "Plato",
@@ -165,13 +185,13 @@ class Horai:
             
             elif first == "-Hermes":
                 try:
-                    response = self.h.start_hermes()
-                    
+                    response = self.use_hermes(token)
+
                     log = {
                         "Route": self.module_name,
                         "From": "Hermes",
                         "Status": response.get("Status", "OK"),
-                        "Time_Stamp": dt.datetime.now()
+                        "Time_stamp": dt.datetime.now().isoformat()
                     }
                     wrapped = {
                         "Route": self.module_name,
@@ -194,12 +214,12 @@ class Horai:
 
             elif first == "-Lyceum":
                 try:
-                    self.use_lyceum(token)
+                    self.use_lyceum(token[1:])
                     self.log_lyceum({
                         "Route": self.module_name,
                         "From": "Lyceum",
                         "Status": "OK",
-                        "Time_Stamp": dt.datetime.now()
+                        "Time_stamp": dt.datetime.now().isoformat()
                     })
                     return {
                         "Route": "Lyceum",
@@ -211,7 +231,7 @@ class Horai:
                         "Route": self.module_name,
                         "From": "Lyceum",
                         "Status": "ERROR",
-                        "Time_Stamp": dt.datetime.now()
+                        "Time_stamp": dt.datetime.now().isoformat()
                     })
                     return {
                         "Route": "Lyceum",
@@ -224,7 +244,7 @@ class Horai:
                         "Route": self.module_name,
                         "From": self.module_name,
                         "Status": "ERROR",
-                        "Time_Stamp": dt.datetime.now()
+                        "Time_stamp": dt.datetime.now().isoformat()
                     })
                 return{
                     "Route": self.module_name,
@@ -236,7 +256,7 @@ class Horai:
                 return {
                     "Route": self.module_name,
                     "Status": "OK",
-                    "Message": f"Echo from {self.module_name}: {command}"
+                    "Message": f"Echo from {self.module_name}: {token[1:]}"
                 }
 
         except Exception as e:
@@ -244,7 +264,7 @@ class Horai:
                         "Route": self.module_name,
                         "From": self.module_name,
                         "Status": "ERROR",
-                        "Time_Stamp": dt.datetime.now()
+                        "Time_stamp": dt.datetime.now().isoformat()
                     })
             return {
                 "Route": self.module_name,
@@ -287,7 +307,7 @@ class Horai:
                         "Route": self.module_name,
                         "From": self.module_name,
                         "Status": "ERROR",
-                        "Time_Stamp": dt.datetime.now()
+                        "Time_stamp": dt.datetime.now().isoformat()
                     })
             return {
                 "Route": self.module_name,
@@ -301,7 +321,7 @@ class Horai:
                         "Route": self.module_name,
                         "From": self.module_name,
                         "Status": "ERROR",
-                        "Time_Stamp": dt.datetime.now()
+                        "Time_stamp": dt.datetime.now().isoformat()
                     })
             return {
                 "Route": self.module_name,

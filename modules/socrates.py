@@ -11,11 +11,8 @@ from modules.horai import Horai
 
 ### GLOBAL VARIABLES FOR SOCRATES.PY
 module_name = "Socrates"
-# version = "0.0.1" Skeliton version
-# version = "0.0.2" Added plato module interaction
-version = "0.0.3" # Added clear command and improved plato module interaction
-author = "Socrates"
-description = "Socrates is the voice, the one who speaks and is spoken too." # describe what the socrates suit does
+version = "0.1.0"
+author = "ZeroCypher"
 
 horai = Horai()
 alive = True
@@ -34,16 +31,6 @@ DEV_BOOT = "--dev-boot" in sys.argv
 
 
 ### GLOBAL FUNCTIONS FOR SOCRATES.PY
-def load_banner():
-    Ascii_Banner_path = (random.choice(
-        ["Ascii_Banners/Socrates/Socrates_Banner0.txt",
-        "Ascii_Banners/Socrates/Socrates_Banner1.txt",]
-        ))
-    
-    with open(Ascii_Banner_path, 'r') as f:
-        Ascii_Banner = f.read()
-        return Ascii_Banner
-    
 def shutdown_Socrates():
     global alive
     alive = False
@@ -71,7 +58,7 @@ def dev_boot():
     except Exception as e:
         print(f"[{module_name}] Developer boot failed: {e}")
 
-def clearConsole():
+def clearConsole(load_banner, author, description):
     os.system('cls' if os.name == 'nt' else 'clear')
     Ascii_Banner = load_banner()
     print(f"{Ascii_Banner}\n\n\nVersion: {version} | Author: {author}\nDescription: {description}")
@@ -80,12 +67,12 @@ def help_command():
     print(helpMessage)
 
 
-def main():
+def main(load_banner, suite_version , suite_author, suite_description):
     Ascii_Banner = load_banner()
     ### HORAI MODULE INITIALIZATION
     ### horai is silently loaded for now as it will handle flow management and security in the future
 
-    print(f"{Ascii_Banner}\n\n\nVersion: {version} | Author: {author}\nDescription: {description}")
+    print(f"{Ascii_Banner}\n\n\nVersion: {suite_version} | Author: {suite_author}\nDescription: {suite_description}")
     while alive:
         try:
             command = input("user@socrates: Socrates.net> ")
@@ -105,7 +92,7 @@ def main():
                     shutdown_Socrates()
 
                 elif tokens[0] in ["clear", "cls"]:
-                    clearConsole()
+                    clearConsole(load_banner, suite_author, suite_description)
                     continue
                     
 
